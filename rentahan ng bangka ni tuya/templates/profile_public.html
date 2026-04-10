@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-8 col-lg-6">
+    <div class="card shadow-sm">
+      <div class="card-body p-4 text-center">
+        <h4 class="mb-3">Public Profile</h4>
+        {% if user.profile_image_path %}
+          <img src="{{ user.profile_image_path }}" alt="Profile" class="rounded-circle mb-3" style="width: 100px; height: 100px; object-fit: cover;">
+        {% else %}
+          <div class="mx-auto mb-3 d-flex align-items-center justify-content-center rounded-circle text-white fw-bold" style="width: 100px; height: 100px; font-size: 30px; background: linear-gradient(120deg, #a53a6e, #f08a5d);">
+            {{ user.full_name[:1] }}
+          </div>
+        {% endif %}
+        <p class="mb-1"><strong>{{ user.full_name }}</strong></p>
+        <p class="text-muted small">{{ user.role|title }}</p>
+        {% if user.role == 'owner' and user.bio %}
+          <p class="small text-start">{{ user.bio }}</p>
+        {% endif %}
+        {% if user.role == 'owner' %}
+          <hr>
+          <h6 class="text-start mb-2">Owned Boats</h6>
+          <div class="row g-2">
+            {% for boat in owned_boats %}
+              <div class="col-6">
+                <div class="border rounded p-2">
+                  <img src="{{ boat.image_url }}" alt="{{ boat.name }}" class="img-fluid rounded mb-1 preview-trigger" data-title="Boat: {{ boat.name }}" style="height: 90px; width: 100%; object-fit: cover;">
+                  <div class="small">{{ boat.name }}</div>
+                  <div class="tiny text-muted">Capacity: {{ boat.capacity }} pax</div>
+                  <div class="tiny text-muted">Rate: PHP {{ '%.2f'|format(boat.hourly_rate) }}/hour</div>
+                  <div class="tiny text-muted">Fishing: {{ 'Available' if boat.available_for_fishing else 'Not Available' }}</div>
+                  <div class="tiny text-muted">For island hopping and hatid sa beach</div>
+                </div>
+              </div>
+            {% else %}
+              <div class="col-12 small text-muted">No boats assigned yet.</div>
+            {% endfor %}
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

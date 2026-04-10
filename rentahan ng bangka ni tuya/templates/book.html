@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-lg-10">
+    <div class="card shadow-sm">
+      <div class="card-body p-4">
+        <h4 class="mb-1">Plan Your Boat Booking</h4>
+        <p class="text-muted small">Select destination, schedule, and payment option.</p>
+        <form method="post" id="bookingForm" enctype="multipart/form-data">
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label class="form-label">Boat</label>
+              <select name="boat_id" class="form-select" required>
+                <option value="">Choose boat</option>
+                {% for boat in boats %}
+                <option value="{{ boat.id }}">{{ boat.name }} - PHP {{ '%.2f'|format(boat.hourly_rate) }}/hr</option>
+                {% endfor %}
+              </select>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Destination Beach</label>
+              <select name="beach_id" class="form-select" required>
+                <option value="">Choose destination</option>
+                {% for beach in beaches %}
+                <option value="{{ beach.id }}">{{ beach.name }}</option>
+                {% endfor %}
+              </select>
+            </div>
+            <div class="col-md-4">
+              <label class="form-label">Booking Date</label>
+              <input type="date" name="booking_date" class="form-control" required>
+            </div>
+            <div class="col-md-4">
+              <label class="form-label">Booking Time</label>
+              <input type="time" name="booking_time" class="form-control" required>
+            </div>
+            <div class="col-md-4">
+              <label class="form-label">Duration (hours)</label>
+              <input type="number" name="duration_hours" class="form-control" min="1" max="12" required>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Payment Method</label>
+              <select name="payment_method" id="paymentMethod" class="form-select" required>
+                <option value="cash">Cash</option>
+                <option value="gcash">GCash</option>
+              </select>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Trip Option</label>
+              <select name="trip_type" class="form-select" required>
+                <option value="hatid sa beach">Hatid sa beach</option>
+                <option value="fishing">Fishing</option>
+              </select>
+            </div>
+            <div class="col-md-12">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="addon_package" id="addonPackage">
+                <label class="form-check-label" for="addonPackage">
+                  Island hopping + fish feeding package (+PHP 3,000)
+                </label>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Notes</label>
+              <input type="text" name="notes" class="form-control" placeholder="Optional notes">
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">GCash Receipt Screenshot</label>
+              <input type="file" name="gcash_receipt" class="form-control" accept=".png,.jpg,.jpeg,.webp">
+              <small class="text-muted">Required when payment method is GCash.</small>
+            </div>
+            <div class="col-12">
+              <button class="btn btn-success">Confirm Booking</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="gcashModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">GCash Payment Details</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body text-center">
+        <img src="https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=GCASH-09531136066-ARVINCHESTERBOATRENTAL" alt="GCash QR" class="img-fluid mb-3">
+        <p class="mb-0"><strong>GCash Number:</strong> 0953 113 6066</p>
+        <small class="text-muted">Send payment and keep screenshot for proof if required.</small>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

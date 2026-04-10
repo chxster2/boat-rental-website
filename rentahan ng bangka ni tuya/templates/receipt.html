@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-lg-8">
+    <div class="card shadow-sm">
+      <div class="card-body p-4">
+        <h4>Booking Confirmation & Receipt</h4>
+        <p class="text-muted">Receipt Code: <strong>{{ booking.receipt_code }}</strong></p>
+        <hr>
+        <div class="row g-2 small">
+          <div class="col-md-6"><strong>Boat:</strong> {{ boat.name }}</div>
+          <div class="col-md-6"><strong>Destination:</strong> {{ beach.name }}</div>
+          <div class="col-md-6"><strong>Date:</strong> {{ booking.booking_date.strftime('%B %d, %Y') }}</div>
+          <div class="col-md-6"><strong>Time:</strong> {{ booking.booking_time.strftime('%I:%M %p') }}</div>
+          <div class="col-md-6"><strong>Duration:</strong> {{ booking.duration_hours }} hour(s)</div>
+          <div class="col-md-6"><strong>Payment:</strong> {{ booking.payment_method|upper }}</div>
+          <div class="col-md-6"><strong>Total:</strong> PHP {{ '%.2f'|format(booking.total_price) }}</div>
+          <div class="col-md-6"><strong>Status:</strong> {{ booking.status }}</div>
+        </div>
+        <hr>
+        <p class="mb-0">A reminder notification is logged for Email/SMS delivery.</p>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

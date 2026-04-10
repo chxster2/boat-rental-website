@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block content %}
+<h4 class="mb-3">All Boats</h4>
+<div class="row g-3">
+  {% for boat in boats %}
+  <div class="col-md-6 col-lg-4">
+    <div class="card h-100 shadow-sm">
+      <img src="{{ boat.image_url }}" class="card-img-top preview-trigger" alt="{{ boat.name }}" data-title="Boat: {{ boat.name }}">
+      <div class="card-body">
+        <h6>{{ boat.name }}</h6>
+        <p class="small mb-1">Owner: <a href="{{ url_for('public_profile', user_id=boat.owner_id) }}">{{ owner_map.get(boat.owner_id, 'Unknown Owner') }}</a></p>
+        <p class="small mb-1">Capacity: {{ boat.capacity }}</p>
+        <p class="small mb-1">Rate: PHP {{ '%.2f'|format(boat.hourly_rate) }}/hour</p>
+        <p class="small mb-1">Fishing Ready: {{ 'Yes' if boat.available_for_fishing else 'No' }}</p>
+        <p class="small mb-1">For island hopping and hatid sa beach</p>
+        <p class="small text-muted">{{ boat.description }}</p>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% endblock %}

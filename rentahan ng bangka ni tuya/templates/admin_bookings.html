@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% block content %}
+<h4 class="mb-3">All Customer Bookings</h4>
+<div class="card shadow-sm">
+  <div class="table-responsive">
+    <table class="table table-striped mb-0">
+      <thead>
+        <tr>
+          <th>Customer</th>
+          <th>Boat</th>
+          <th>Destination</th>
+          <th>Date</th>
+          <th>Time</th>
+          <th>Duration</th>
+          <th>Payment</th>
+          <th>Booked At</th>
+          <th>Total</th>
+          <th>Status</th>
+          <th>Receipt</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for booking, customer_name, boat_name, beach_name in rows %}
+        <tr>
+          <td>{{ customer_name }}</td>
+          <td>{{ boat_name }}</td>
+          <td>{{ beach_name }}</td>
+          <td>{{ booking.booking_date.strftime('%b %d, %Y') }}</td>
+          <td>{{ booking.booking_time.strftime('%I:%M %p') }}</td>
+          <td>{{ booking.duration_hours }} hr</td>
+          <td>{{ booking.payment_method|upper }}</td>
+          <td>{{ booking.created_at.strftime('%b %d, %Y %I:%M %p') }}</td>
+          <td>PHP {{ '%.2f'|format(booking.total_price) }}</td>
+          <td><span class="badge text-bg-success">{{ booking.status }}</span></td>
+          <td>
+            {{ booking.receipt_code }}
+            {% if booking.transaction_receipt_path %}
+              <a href="{{ booking.transaction_receipt_path }}" target="_blank" class="d-block small mt-1">View GCash Screenshot</a>
+            {% endif %}
+          </td>
+        </tr>
+        {% else %}
+        <tr><td colspan="11" class="text-center text-muted">No customer bookings yet.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

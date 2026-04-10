@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block content %}
+<h4 class="mb-3">My Fleet - Update Boat Photos</h4>
+<div class="row g-3">
+  {% for boat in boats %}
+  <div class="col-md-6 col-lg-4">
+    <div class="card shadow-sm h-100">
+      <img src="{{ boat.image_url }}" class="card-img-top preview-trigger" data-title="Boat: {{ boat.name }}" alt="{{ boat.name }}">
+      <div class="card-body">
+        <h6>{{ boat.name }}</h6>
+        <p class="small mb-2">Capacity: {{ boat.capacity }} pax</p>
+        <form method="post" action="{{ url_for('owner_update_boat_photo', boat_id=boat.id) }}" enctype="multipart/form-data">
+          <input type="file" class="form-control form-control-sm mb-2" name="boat_image" accept=".png,.jpg,.jpeg,.webp" required>
+          <button class="btn btn-sm btn-primary w-100">Change Boat Photo</button>
+        </form>
+      </div>
+    </div>
+  </div>
+  {% else %}
+  <p class="text-muted">No boats assigned yet.</p>
+  {% endfor %}
+</div>
+{% endblock %}
